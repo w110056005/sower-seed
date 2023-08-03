@@ -1,0 +1,6 @@
+pyzmq
+pandas
+numpy
+keras
+tensorflow
+flwr
