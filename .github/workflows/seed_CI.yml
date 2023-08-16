@@ -13,7 +13,7 @@ jobs:
     - name: Checkout source code
       uses: actions/checkout@v3
       with:
-        repository: w110056005/Sower
+        repository: w110056005/sower-seed
         ref: 'master'
 
     - name: Login to Docker Hub

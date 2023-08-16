@@ -20,10 +20,10 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.07
 session = tf.compat.v1.Session(config=config) 
 
-df_MHE = pd.read_csv('dataset/Electricity_MHE.csv')
+df_MHE = pd.read_csv('https://drive.google.com/file/d/1CFgKiuuLGRfiBFAI7muqPNBa4SvxP2P8/view?usp=sharing')
 df_MHE['unix_ts'] = pd.to_datetime(df_MHE['unix_ts'])
 df_MHE = df_MHE.set_index('unix_ts')
-df_Coustomer = pd.read_csv('dataset/Electricity_BME.csv')
+df_Coustomer = pd.read_csv('https://drive.google.com/file/d/1WsvonPD8WCW0MmMkD7rklOGx914Uhax9/view?usp=drive_link')
 df_Coustomer['unix_ts'] = pd.to_datetime(df_Coustomer['unix_ts'])
 df_Coustomer = df_Coustomer.set_index('unix_ts')
 df_MHE_2013 = df_MHE[395580:]
