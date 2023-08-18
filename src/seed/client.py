@@ -20,10 +20,10 @@ config = tf.compat.v1.ConfigProto()
 config.gpu_options.per_process_gpu_memory_fraction = 0.07
 session = tf.compat.v1.Session(config=config) 
 
-df_MHE = pd.read_csv('https://drive.google.com/file/d/1CFgKiuuLGRfiBFAI7muqPNBa4SvxP2P8/view?usp=sharing')
+df_MHE = pd.read_csv('https://drive.google.com/uc?id=1CFgKiuuLGRfiBFAI7muqPNBa4SvxP2P8&export=download')
 df_MHE['unix_ts'] = pd.to_datetime(df_MHE['unix_ts'])
 df_MHE = df_MHE.set_index('unix_ts')
-df_Coustomer = pd.read_csv('https://drive.google.com/file/d/1WsvonPD8WCW0MmMkD7rklOGx914Uhax9/view?usp=drive_link')
+df_Coustomer = pd.read_csv('https://drive.google.com//uc?id=1WsvonPD8WCW0MmMkD7rklOGx914Uhax9&export=download')
 df_Coustomer['unix_ts'] = pd.to_datetime(df_Coustomer['unix_ts'])
 df_Coustomer = df_Coustomer.set_index('unix_ts')
 df_MHE_2013 = df_MHE[395580:]
@@ -98,4 +98,4 @@ class FlowerClient(fl.client.NumPyClient):
         return loss, len(X_test), {"mae": mae}
 
 client = FlowerClient()
-fl.client.start_numpy_client(server_address="sower_platform_container:8080", client=client)
+fl.client.start_numpy_client(server_address="sower_platform_container:8090", client=client)
