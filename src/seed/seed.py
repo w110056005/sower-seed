@@ -1,8 +1,37 @@
-import zmq
+from paho.mqtt import client as mqtt_client
 import subprocess
+import random
 
 
-print("Running Sower seed in background...")
+broker = 'broker.emqx.io'
+port = 1883
+topic = "Sower"
+# Generate a Client ID with the subscribe prefix.
+client_id = f'subscribe-{random.randint(0, 100)}'
+# username = 'emqx'
+# password = 'public'
+
+def connect_mqtt() -> mqtt_client:
+    def on_connect(client, userdata, flags, rc):
+        if rc == 0:
+            print("Connected to MQTT Broker!")
+        else:
+            print("Failed to connect, return code %d\n", rc)
+
+    client = mqtt_client.Client(client_id)
+    # client.username_pw_set(username, password)
+    client.on_connect = on_connect
+    client.connect(broker, port)
+    return client
+
+def subscribe(client: mqtt_client):
+    def on_message(client, userdata, msg):
+        print('Receive msg: '+ msg.payload.decode())
+        if(msg.payload.decode() == "Start"):
+            execute_python_file("client.py")
+
+    client.subscribe(topic)
+    client.on_message = on_message
 
 def execute_python_file(file_path):
     try:
@@ -12,19 +41,8 @@ def execute_python_file(file_path):
         # Handle any errors that occur during the execution
         print(f"Error executing {file_path}: {e}")
 
-# Create a ZeroMQ context
-context = zmq.Context()
-# Create a subscriber socket
-socket = context.socket(zmq.SUB)
-# Set the subscription filter (empty string means subscribe to all messages)
-socket.setsockopt_string(zmq.SUBSCRIBE, '')
-# Connect to the publisher's address
-socket.connect('tcp://sower_platform_container:5555')
-
 while True:
-    print('Listening')
-    message = socket.recv_string()
-    print(f'Received message: {message}')
-    
-    if(message == "Start"):
-        execute_python_file("client.py")
+    print("Running Sower client in background...")
+    client = connect_mqtt()
+    subscribe(client)
+    client.loop_forever()

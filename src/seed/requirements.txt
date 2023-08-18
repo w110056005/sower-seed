@@ -1,4 +1,4 @@
-pyzmq
+paho-mqtt
 pandas
 numpy
 keras
