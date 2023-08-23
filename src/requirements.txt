@@ -1,3 +1,5 @@
 paho-mqtt
-tensorflow
+scikit-learn
+numpy
+openml
 flwr
