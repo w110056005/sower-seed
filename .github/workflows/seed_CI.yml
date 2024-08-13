@@ -25,6 +25,6 @@ jobs:
     - name: Push Docker image to Docker Hub
       uses: docker/build-push-action@v2
       with:
-        context: ./src/seed
+        context: ./src
         push: true
         tags: w110056005/seed:latest

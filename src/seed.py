@@ -18,7 +18,7 @@ def connect_mqtt() -> mqtt_client:
         else:
             print("Failed to connect, return code %d\n", rc)
 
-    client = mqtt_client.Client(client_id)
+    client = mqtt_client.Client(mqtt_client.CallbackAPIVersion.VERSION1,client_id)
     # client.username_pw_set(username, password)
     client.on_connect = on_connect
     client.connect(broker, port)
@@ -27,16 +27,17 @@ def connect_mqtt() -> mqtt_client:
 def subscribe(client: mqtt_client):
     def on_message(client, userdata, msg):
         print('Receive msg: '+ msg.payload.decode())
-        if(msg.payload.decode() == "Start"):
-            execute_python_file("client.py")
+        msg = msg.payload.decode().split(',')
+        if(msg[0] == "Start"):
+            execute_python_file("client.py", msg[1])
 
     client.subscribe(topic)
     client.on_message = on_message
 
-def execute_python_file(file_path):
+def execute_python_file(file_path, port):
     try:
         # Execute the Python file as a separate process
-        subprocess.run(['python', file_path], check=True)
+        subprocess.run(['python', file_path, port], check=True)
     except subprocess.CalledProcessError as e:
         # Handle any errors that occur during the execution
         print(f"Error executing {file_path}: {e}")
