@@ -23,5 +23,5 @@ class CifarClient(fl.client.NumPyClient):
         loss, accuracy = model.evaluate(x_test, y_test)
         return loss, len(x_test), {"accuracy": float(accuracy)}
 
-addr = "localhost:"+port
+addr = "sower_platform_container:"+port
 fl.client.start_numpy_client(server_address=addr, client=CifarClient())
